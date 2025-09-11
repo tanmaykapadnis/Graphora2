@@ -1,10 +1,16 @@
+
 :root {
-  --bg: linear-gradient(120deg, #f0f4ff, #fafafa);
+  --bg: linear-gradient(to right, #ffffff, #fef0d9); /* soft white → peach-beige */
   --card: #fff;
   --muted: #555;
-  --accent: #2563eb;
-  --accent-light: #dbeafe;
+  --accent: rgb(109,67,0);          /* golden-brown accent */
+  --accent-light: #fdf5e6;          /* soft beige for highlights */
 }
+
+
+
+
+
 
 * {
   box-sizing: border-box;

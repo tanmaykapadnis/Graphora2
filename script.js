@@ -69,7 +69,23 @@ function renderGraph(graph) {
   })));
 
   const data = { nodes, edges };
-  const options = { physics: true }; // auto layout
+  const options = { physics: true ,nodes: {
+    shape: "box",
+    margin: 10,
+    color: {
+      border: "#6d4300",        // deep brown border
+      background: "#6d4300",    // same fill
+      highlight: { border: "#8b5e1a", background: "#8b5e1a" }, // golden brown
+      hover: { border: "#a8702f", background: "#a8702f" }      // lighter warm shade
+    },
+    font: { color: "#fff", size: 16, bold: true }
+  },
+  edges: {
+    color: { color: "#6d4300", highlight: "#8b5e1a", hover: "#a8702f" },
+    width: 2,
+    arrows: { to: { enabled: true, scaleFactor: 0.7 } }
+  }
+  }; // auto layout
 
   
   const network = new vis.Network(container, data, options);
