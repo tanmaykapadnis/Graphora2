@@ -36,8 +36,6 @@ function showDetails(node) {
 
 
 
-
-
 function renderNodes(graph) {
   nodesContainer.innerHTML = '';
   graph.nodes.forEach(node => {
@@ -124,34 +122,62 @@ function renderGraph(graph) {
 renderNodes(sampleGraph);
 
 // For later: hooking to a backend
-generateBtn.addEventListener('click',  () => {
+
+
+generateBtn.addEventListener('click', async () => {
   const text = document.getElementById('inputText').value.trim();
-  
-  if (!text) {
-    alert('Paste article text or URL first.');
+  const url = document.getElementById('urlInput').value.trim();
+
+  if (!text && !url) {
+    alert('Paste article text or a URL first.');
     return;
   }
 
-  const items=text.split(',').map(t=>t.trim()).filter(t=>t);
-  
-  
-  
-  const userGraph={
-    nodes: items.map((item, i) => ({
-      id: "u" + i, 
-      label: item,
-      summary: "You entered: " + item,
-      keywords: ["custom"]
-    })),
-    edges: items.map((item, i) => {
-      if (i === 0) return null; 
-      return { from: "u" + (i - 1), to: "u" + i, relation: "related-to" };
-    }).filter(Boolean)
-    
-  };
-  
-  renderNodes(userGraph);
-  renderGraph(userGraph);
+  try {
+    const resp = await fetch("http://localhost:4000/api/generate", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ text, url })
+    });
+
+    const data = await resp.json();
+
+    if (!data.ok) {
+      alert("Error: " + data.error);
+      return;
+    }
+
+    const graph = data.graph;
+    renderNodes(graph);
+    renderGraph(graph);
+
+  } catch (err) {
+    console.error(err);
+    alert("Failed to contact backend.");
+  }
 });
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
